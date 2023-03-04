@@ -6,6 +6,19 @@ class ApplicationController < Sinatra::Base
         movies.to_json
     end
 
+    get '/movies/:title' do
+        movie = Movie.find_by_title(params[:title])
+        movie.to_json 
+    end
+
+    get '/movie/:year' do
+        movie = Movie.all
+        updatedmovie = movie.select do |movie|
+            movie.year == params[:year]
+        end
+        updatedmovie.to_json 
+    end
+
     post '/movies' do
         data = Movie.create(
             title: params[:title],
