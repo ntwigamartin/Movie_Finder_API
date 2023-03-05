@@ -1,6 +1,15 @@
 class ApplicationController < Sinatra::Base
     set :default_content_type, 'application/json'
   
+    post '/authenticate' do
+        user = User.where(email: params[:email], password: params[:password]).first
+        if user
+          user.to_json
+        else
+          halt 401, "Unauthorized"
+        end
+    end
+    
     get '/movies' do
         movies = Movie.all
         movies.to_json
